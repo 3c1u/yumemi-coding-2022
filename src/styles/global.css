@@ -1,0 +1,4 @@
+/* NOTE: tailwind.cssはあくまでリセットCSSとして使用している。 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

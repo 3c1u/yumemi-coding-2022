@@ -1,0 +1,65 @@
+{
+  "extends": [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "version": 2021,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": ["./tsconfig.json"]
+  },
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [".js", ".tsx", ".jsx"]
+      }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "no-shadow": [
+      "error",
+      {
+        "builtinGlobals": false,
+        "allow": ["_"]
+      }
+    ],
+    "no-console": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ],
+    "react/prop-types": "off",
+    "@typescript-eslint/explicit-module-boundary-types": ["off"],
+    // 相対パスでのimportを塞げば、絶対パスでのimportを強制できるかもしれない
+    // https://github.com/import-js/eslint-plugin-import/issues/669#issuecomment-316438608
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["../*", "./*"]
+      }
+    ]
+  }
+}
