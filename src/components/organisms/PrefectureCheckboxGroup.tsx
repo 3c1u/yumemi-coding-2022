@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { AppButton } from '~/components/atoms/AppButton'
 import { Checkbox } from '~/components/atoms/Checkbox'
 import { CheckboxGroup } from '~/components/molecules/CheckboxGroup'
 import { useUiPrefectures } from '~/hooks/ui/useUiPrefectures'
@@ -19,6 +20,10 @@ export const PrefectureCheckboxGroup = () => {
     [prefCodes, setPrefCodes],
   )
 
+  const handleClear = useCallback(() => {
+    setPrefCodes([])
+  }, [setPrefCodes])
+
   if (isLoading) {
     return <div>Now Loading...</div>
   }
@@ -32,19 +37,36 @@ export const PrefectureCheckboxGroup = () => {
         padding: '1.5rem',
       }}
     >
-      <h2
+      <div
         style={{
-          fontWeight: 700,
-          fontSize: '1.25rem',
+          display: 'flex',
         }}
       >
-        都道府県
-      </h2>
+        <h2
+          style={{
+            fontWeight: 700,
+            fontSize: '1.25rem',
+            flex: 1,
+          }}
+        >
+          都道府県
+        </h2>
+        <AppButton
+          type="button"
+          style={{
+            marginLeft: '1rem',
+          }}
+          onClick={handleClear}
+        >
+          リセット
+        </AppButton>
+      </div>
       <CheckboxGroup>
         {prefectures?.map(prefecture => (
           <Checkbox
             key={prefecture.prefCode}
             value={prefecture.prefCode}
+            checked={prefCodes.includes(prefecture.prefCode)}
             onChange={handleCheck}
           >
             {prefecture.prefName}

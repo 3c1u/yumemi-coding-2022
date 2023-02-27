@@ -115,6 +115,10 @@ export const PopulationPlot = () => {
     void fetchData()
   }, [prefCodes])
 
+  if (prefCodes.length === 0) {
+    return <div>都道府県を選択してください</div>
+  }
+
   return (
     <PopulationPlotRoot>
       <ResponsiveContainer width="100%" height={340}>
@@ -138,11 +142,7 @@ export const PopulationPlot = () => {
           <Tooltip />
         </LineChart>
       </ResponsiveContainer>
-      {isLoading && (
-        <div className="loading-cell">
-          Loading...
-        </div>
-      )}
+      {isLoading && <div className="loading-cell">Loading...</div>}
     </PopulationPlotRoot>
   )
 }
