@@ -12,6 +12,7 @@ import { useUiPrefectures } from '~/hooks/ui/useUiPrefectures'
 import { useEffect, useRef, useState } from 'react'
 import { getPopulationCompositionPerYear } from '~/services/resas/populationCompositionPerYear'
 import { usePrefectures } from '~/hooks/usePrefectures'
+import styled from '~/vendor/@emotion/styled'
 
 const kPopulationPlotYearStart = 1980
 const kPopulationPlotYearEnd = 2045
@@ -30,6 +31,24 @@ const colormap = [
   '#bcbd22',
   '#17becf',
 ]
+
+const PopulationPlotRoot = styled.div`
+  display: flex;
+  justify-items: center;
+  position: relative;
+
+  .loading-cell {
+    position: absolute;
+    top: 32px;
+    right: 64px;
+    background: white;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    color: #667;
+    font-size: 12px;
+  }
+`
 
 export const PopulationPlot = () => {
   const [prefCodes] = useUiPrefectures()
@@ -97,17 +116,12 @@ export const PopulationPlot = () => {
   }, [prefCodes])
 
   return (
-    <div className="flex justify-center relative">
+    <PopulationPlotRoot>
       <ResponsiveContainer width="100%" height={340}>
         <LineChart
           margin={{ top: 24, right: 40, left: 40, bottom: 24 }}
           data={data}
         >
-          {isLoading && (
-            <div className="absolute top-0 left-0 bg-white bg-opacity-50 flex justify-center items-center">
-              <div className="text-gray-500">Loading...</div>
-            </div>
-          )}
           {prefCodes.map((prefCode, idx) => (
             <Line
               key={prefCode}
@@ -125,10 +139,10 @@ export const PopulationPlot = () => {
         </LineChart>
       </ResponsiveContainer>
       {isLoading && (
-        <div className="absolute top-8 right-16 bg-white flex justify-center items-center text-xs p-2 shadow-md">
-          <div className="text-gray-500">Loading...</div>
+        <div className="loading-cell">
+          Loading...
         </div>
       )}
-    </div>
+    </PopulationPlotRoot>
   )
 }
