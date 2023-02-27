@@ -11,7 +11,7 @@ type Response = Prefecture[]
 export const getPrefectures = async (): Promise<Response> => {
   const res = await fetch(`${resasBaseUrl}/prefectures`, {
     headers: {
-      'X-API-KEY': resasApiKey as string,
+      'X-API-KEY': resasApiKey,
     },
   })
 

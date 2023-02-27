@@ -32,7 +32,7 @@ export const getPopulationCompositionPerYear = async ({
     }`,
     {
       headers: {
-        'X-API-KEY': resasApiKey as string,
+        'X-API-KEY': resasApiKey,
       },
     },
   )
