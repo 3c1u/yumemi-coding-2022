@@ -24,6 +24,13 @@ const colormap = [
   '#17becf',
 ]
 
+const PopulationPlotEmptyStateRoot = styled.div`
+  text-align: center;
+  padding: 5rem;
+  color: #ccd;
+  font-size: 0.75rem;
+`
+
 const PopulationPlotRoot = styled.div`
   display: flex;
   justify-items: center;
@@ -46,7 +53,11 @@ export const PopulationPlot = () => {
   const { data, prefCodes, prefectures, isLoading } = usePopulationData()
 
   if (prefCodes.length === 0) {
-    return <div>都道府県を選択してください</div>
+    return (
+      <PopulationPlotEmptyStateRoot>
+        都道府県を選択してください
+      </PopulationPlotEmptyStateRoot>
+    )
   }
 
   return (
