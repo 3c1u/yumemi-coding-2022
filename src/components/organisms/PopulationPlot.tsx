@@ -10,6 +10,7 @@ import {
 } from '~/vendor/recharts'
 import styled from '~/vendor/@emotion/styled'
 import { usePopulationData } from '~/hooks/usePopulationData'
+import { usePrefectures } from '~/hooks/usePrefectures'
 
 const colormap = [
   '#1f77b4',
@@ -50,7 +51,8 @@ const PopulationPlotRoot = styled.div`
 `
 
 export const PopulationPlot = () => {
-  const { data, prefCodes, prefectures, isLoading } = usePopulationData()
+  const { data, prefCodes, isLoading } = usePopulationData()
+  const { data: prefectures } = usePrefectures()
 
   if (prefCodes.length === 0) {
     return (
@@ -71,7 +73,7 @@ export const PopulationPlot = () => {
             <Line
               key={prefCode}
               type="monotone"
-              dataKey={`p${prefCode}`}
+              dataKey={`prefecture_${prefCode}`}
               stroke={colormap[idx % colormap.length]}
               name={prefectures?.find(p => p.prefCode === prefCode)?.prefName}
             />
