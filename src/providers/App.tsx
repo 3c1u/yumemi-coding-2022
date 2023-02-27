@@ -1,4 +1,6 @@
 import { SWRConfig } from '~/vendor/swr'
+import { DefaultLayout } from '~/layouts/DefaultLayout'
+import { Index } from '~/pages'
 
 export const App = () => {
   return (
@@ -9,9 +11,10 @@ export const App = () => {
         revalidateOnReconnect: false,
       }}
     >
-      <div className="app">
-        <h2>Hello, world!</h2>
-      </div>
+      <DefaultLayout>
+        {/* NOTE: react-routerを入れるならここ */}
+        <Index />
+      </DefaultLayout>
     </SWRConfig>
   )
 }
