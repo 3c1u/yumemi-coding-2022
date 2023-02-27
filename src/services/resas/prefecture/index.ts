@@ -1,9 +1,5 @@
+import { Prefecture } from '~/models/prefecture'
 import { resasApiKey, resasBaseUrl, ResasResponse } from '~/services/resas'
-
-type Prefecture = {
-  prefCode: number
-  prefName: string
-}
 
 type Response = Prefecture[]
 

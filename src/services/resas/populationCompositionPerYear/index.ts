@@ -1,3 +1,4 @@
+import { PopulationComposition } from '~/models/population'
 import { resasApiKey, resasBaseUrl, ResasResponse } from '~/services/resas'
 
 type Payload = {
@@ -5,21 +6,7 @@ type Payload = {
   cityCode?: number
 }
 
-type PopulationData = {
-  year: number
-  value: number
-  rate?: number
-}
-
-type Dataset = {
-  label: string
-  data: PopulationData[]
-}
-
-type Response = {
-  boundaryYear: number
-  data: Dataset[]
-}
+type Response = PopulationComposition
 
 // TODO: エラーハンドリング
 export const getPopulationCompositionPerYear = async ({
