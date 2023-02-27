@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '~/vendor/@emotion/styled'
 
 export const CheckboxGroup = styled.div`
   display: grid;

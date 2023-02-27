@@ -1,5 +1,5 @@
 import { ChangeEventHandler, useCallback, useId } from 'react'
-import styled from '@emotion/styled'
+import styled from '~/vendor/@emotion/styled'
 
 interface CheckboxProps<_Value> {
   id?: string
