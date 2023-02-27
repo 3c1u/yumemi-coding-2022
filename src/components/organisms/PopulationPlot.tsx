@@ -8,16 +8,8 @@ import {
   XAxis,
   YAxis,
 } from '~/vendor/recharts'
-import { useUiPrefectures } from '~/hooks/ui/useUiPrefectures'
-import { useEffect, useRef, useState } from 'react'
-import { getPopulationCompositionPerYear } from '~/services/resas/populationCompositionPerYear'
-import { usePrefectures } from '~/hooks/usePrefectures'
 import styled from '~/vendor/@emotion/styled'
-
-const kPopulationPlotYearStart = 1980
-const kPopulationPlotYearEnd = 2045
-
-type Response = Awaited<ReturnType<typeof getPopulationCompositionPerYear>>
+import { usePopulationData } from '~/hooks/usePopulationData'
 
 const colormap = [
   '#1f77b4',
@@ -51,69 +43,7 @@ const PopulationPlotRoot = styled.div`
 `
 
 export const PopulationPlot = () => {
-  const [prefCodes] = useUiPrefectures()
-  const refCachedPrefectures = useRef<Record<number, Promise<Response>>>({})
-  const [data, setData] = useState<Record<string, string>[]>([])
-
-  const { data: prefectures } = usePrefectures()
-
-  const [isLoading, setIsLoading] = useState(false)
-
-  useEffect(() => {
-    setIsLoading(true)
-
-    const fetchData = async () => {
-      const resGroup = await Promise.all(
-        prefCodes.map(async prefCode => {
-          if (prefCode in refCachedPrefectures.current) {
-            return refCachedPrefectures.current[prefCode].then(
-              r => [prefCode, r] as const,
-            )
-          }
-
-          const res = getPopulationCompositionPerYear({ prefCode })
-          refCachedPrefectures.current[prefCode] = res
-
-          return res.then(r => [prefCode, r] as const)
-        }),
-      )
-
-      const dataObj: Record<number, Record<string, number>> = {}
-
-      resGroup.forEach(([prefCode, res]) => {
-        const populations = res.data.find(d => d.label === '総人口')
-        if (!populations) {
-          return
-        }
-
-        populations.data.forEach(population => {
-          const year = population.year
-          if (
-            year < kPopulationPlotYearStart ||
-            year > kPopulationPlotYearEnd
-          ) {
-            return
-          }
-
-          if (!(year in dataObj)) {
-            dataObj[year] = {}
-          }
-
-          dataObj[year][`p${prefCode}`] = population.value
-        })
-      })
-
-      const newData = Object.entries(dataObj).map(([year, populations]) => ({
-        year,
-        ...populations,
-      }))
-
-      setData(newData)
-      setIsLoading(false)
-    }
-
-    void fetchData()
-  }, [prefCodes])
+  const { data, prefCodes, prefectures, isLoading } = usePopulationData()
 
   if (prefCodes.length === 0) {
     return <div>都道府県を選択してください</div>
