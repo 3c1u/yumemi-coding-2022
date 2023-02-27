@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@swc/plugin-emotion": "^2.5.43",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "recharts": "^2.4.3",
     "swr": "^2.0.4"
   },
   "devDependencies": {
