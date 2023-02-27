@@ -1,7 +1,9 @@
 import {
   CartesianGrid,
+  Legend,
   Line,
   LineChart,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
@@ -36,7 +38,11 @@ export const PopulationPlot = () => {
 
   const { data: prefectures } = usePrefectures()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
+    setIsLoading(true)
+
     const fetchData = async () => {
       const resGroup = await Promise.all(
         prefCodes.map(async prefCode => {
@@ -84,28 +90,45 @@ export const PopulationPlot = () => {
       }))
 
       setData(newData)
+      setIsLoading(false)
     }
 
     void fetchData()
   }, [prefCodes])
 
   return (
-    <div className="flex items-center">
-      <LineChart width={600} height={300} data={data}>
-        {prefCodes.map((prefCode, idx) => (
-          <Line
-            key={prefCode}
-            type="monotone"
-            dataKey={`p${prefCode}`}
-            stroke={colormap[idx % colormap.length]}
-            name={prefectures?.find(p => p.prefCode === prefCode)?.prefName}
-          />
-        ))}
-        <CartesianGrid stroke="#ccc" />
-        <XAxis dataKey="year" />
-        <YAxis />
-        <Tooltip />
-      </LineChart>
+    <div className="flex justify-center relative">
+      <ResponsiveContainer width="100%" height={340}>
+        <LineChart
+          margin={{ top: 24, right: 40, left: 40, bottom: 24 }}
+          data={data}
+        >
+          {isLoading && (
+            <div className="absolute top-0 left-0 bg-white bg-opacity-50 flex justify-center items-center">
+              <div className="text-gray-500">Loading...</div>
+            </div>
+          )}
+          {prefCodes.map((prefCode, idx) => (
+            <Line
+              key={prefCode}
+              type="monotone"
+              dataKey={`p${prefCode}`}
+              stroke={colormap[idx % colormap.length]}
+              name={prefectures?.find(p => p.prefCode === prefCode)?.prefName}
+            />
+          ))}
+          <CartesianGrid stroke="#ccc" />
+          <XAxis dataKey="year" fontSize={12} />
+          <YAxis fontSize={12} />
+          <Legend />
+          <Tooltip />
+        </LineChart>
+      </ResponsiveContainer>
+      {isLoading && (
+        <div className="absolute top-8 right-16 bg-white flex justify-center items-center text-xs p-2 shadow-md">
+          <div className="text-gray-500">Loading...</div>
+        </div>
+      )}
     </div>
   )
 }
