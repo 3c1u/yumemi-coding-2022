@@ -17,7 +17,7 @@ type PopulationCompositionGraphDataPoint = {
   [key: string]: number
 }
 
-const transformPopulationCompositionData = (
+export const transformPopulationCompositionData = (
   resGroup: PopulationCompositionDataPerPrefecture[],
 ): PopulationCompositionGraphDataPoint[] => {
   const dataObj: Record<number, Record<string, number>> = {}
